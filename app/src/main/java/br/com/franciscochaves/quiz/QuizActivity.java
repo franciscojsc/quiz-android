@@ -71,13 +71,21 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void carregarQuestao(){
-        Questao q = questoes.remove(0);
-        pergunta.setText(q.getPergunta());
-        List<String> resposta = q.getRespostas();
-        rbResposta1.setText(resposta.get(0));
-        rbResposta2.setText(resposta.get(1));
-        rbResposta3.setText(resposta.get(2));
-        rbResposta4.setText(resposta.get(3));
-        respostaCerta = q.getRespostaCerta();
+        if(questoes.size() > 0){
+            Questao q = questoes.remove(0);
+            pergunta.setText(q.getPergunta());
+            List<String> resposta = q.getRespostas();
+            rbResposta1.setText(resposta.get(0));
+            rbResposta2.setText(resposta.get(1));
+            rbResposta3.setText(resposta.get(2));
+            rbResposta4.setText(resposta.get(3));
+            respostaCerta = q.getRespostaCerta();
+        }else {
+            Intent intent = new Intent(this, RespostaActivity.class);
+            intent.putExtra("pontos", pontos);
+            startActivity(intent);
+            finish();
+        }
+
     }
 }
