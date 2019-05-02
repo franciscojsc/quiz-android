@@ -11,12 +11,14 @@ import android.widget.TextView;
 public class QuizActivity extends AppCompatActivity {
 
     private TextView pergunta;
+    private RadioGroup radioGroup;
     private RadioButton rbResposta1;
     private RadioButton rbResposta2;
     private RadioButton rbResposta3;
     private RadioButton rbResposta4;
 
     private int respostaCerta;
+    private int pontos = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +30,25 @@ public class QuizActivity extends AppCompatActivity {
         rbResposta2 = findViewById(R.id.radio_resposta2);
         rbResposta3 = findViewById(R.id.radio_resposta3);
         rbResposta4 = findViewById(R.id.radio_resposta4);
+        radioGroup = findViewById(R.id.radio_grup_pergunta);
 
         respostaCerta = R.id.radio_resposta1;
     }
 
     public void btnResponderOnclick(View view ) {
-        RadioGroup radioGroup = (RadioGroup)findViewById(R.id.radio_grup_pergunta);
+        RadioButton r = findViewById(radioGroup.getCheckedRadioButtonId());
         Intent intent = new Intent(this, RespostaActivity.class);
-        intent.putExtra("acertou", radioGroup.getCheckedRadioButtonId() == respostaCerta);
+        if(radioGroup.getCheckedRadioButtonId() == respostaCerta){
+            intent.putExtra("acertou", true);
+            pontos++;
+        }else{
+            intent.putExtra("acertou", false);
+        }
+
+        intent.putExtra("pontos", pontos);
+
         startActivity(intent);
+        r.setChecked(false);
     }
 
     @Override
